@@ -79,6 +79,7 @@ class Pong:
         button_clicked = self.button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.playing:
             self.playing = True
+            pygame.mouse.set_visible(False)
 
     def _update_paddle(self):
         self.paddle_right.update()
