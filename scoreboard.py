@@ -2,6 +2,7 @@ import pygame.font
 
 
 class ScoreBoard:
+    ''' Class for player scores '''
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
@@ -15,6 +16,7 @@ class ScoreBoard:
         self.prep_score_player_right()
 
     def prep_score_player_left(self):
+        ''' Score player left '''
         player_left_score_str = str(self.settings.player_left_score)
         self.score_image_player_left = self.font.render(
             player_left_score_str, True, self.text_color, self.settings.bg_color)
@@ -22,6 +24,7 @@ class ScoreBoard:
         self.score_rect_player_left.right = (self.settings.screen_width // 2) - 30
 
     def prep_score_player_right(self):
+        ''' score player right '''
         player_right_score_str = str(self.settings.player_right_score)
         self.score_image_player_right = self.font.render(
             player_right_score_str, True, self.text_color, self.settings.bg_color)
@@ -29,5 +32,6 @@ class ScoreBoard:
         self.score_rect_player_right.left = (self.settings.screen_width // 2) + 30
 
     def show_score(self):
+        '''' draw score to screen '''
         self.screen.blit(self.score_image_player_left, self.score_rect_player_left)
         self.screen.blit(self.score_image_player_right, self.score_rect_player_right)
