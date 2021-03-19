@@ -5,8 +5,8 @@ class Settings:
     def __init__(self):
         ''' Initialize settings '''
         # Screen settings
-        self.screen_width = 1200
-        self.screen_height = 800
+        self.screen_width = 1500
+        self.screen_height = 900
         self.bg_color = (0, 0, 0)
 
         # Paddle settings
@@ -39,7 +39,7 @@ class Settings:
         ''' Default speed settings '''
         self.paddle_speed = 0.75
         self.ball_speed_x = 0.50
-        self.ball_speed_y = 0.25
+        self.ball_speed_y = 0.40
 
     def speedup_ball(self):
         ''' every collission with paddle '''
