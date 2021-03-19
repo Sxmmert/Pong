@@ -1,3 +1,5 @@
+Run play.py or main.py to run the game.
+
 To move the left paddle, use w and s.
 To move the right paddle, use the upkey and downkey.
 
