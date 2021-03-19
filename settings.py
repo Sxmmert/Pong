@@ -12,7 +12,7 @@ class Settings:
         # Paddle settings
         self.paddle_color = (255, 255, 255)
         self.paddle_width = 20
-        self.paddle_height = 300
+        self.paddle_height = self.screen_height // 4
 
         # Middle line settings
         self.middle_line_color = (255, 255, 255)
@@ -37,11 +37,12 @@ class Settings:
 
     def reset_settings(self):
         ''' Default speed settings '''
-        self.paddle_speed = 1.5
-        self.ball_speed_x = 0.15
-        self.ball_speed_y = 0.08
+        self.paddle_speed = 0.75
+        self.ball_speed_x = 0.50
+        self.ball_speed_y = 0.25
 
     def speedup_ball(self):
         ''' every collission with paddle '''
-        self.ball_speed_x *= 1.1
-        self.ball_speed_y += 0.01
+        if not self.ball_speed_x >= 1.9:
+            self.ball_speed_x *= 1.1
+            self.ball_speed_y *= 1.1
