@@ -9,7 +9,6 @@ from time import sleep
 from scoreboard import ScoreBoard
 from button import Button
 
-
 class Pong:
     ''' Main class for the game '''
     def __init__(self):
@@ -22,7 +21,7 @@ class Pong:
         # Uncomment this for fullscreen
         # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) # FULLSCREEN
 
-        pygame.display.set_caption('Pong') # Title 
+        pygame.display.set_caption('Pong') # Title
         self.settings.screen_width = self.screen.get_rect().width # Screen width
         self.settings.screen_height = self.screen.get_rect().height # Screen height
 
@@ -32,13 +31,12 @@ class Pong:
         self.paddle_left = PaddleLeft(self)
         self.paddle_right = PaddleRight(self)
         self.ball = Ball(self)
-
+        
         self.playing = False # Flag, when False show play button, else play the game
 
     def main(self):
         ''' Main game loop '''
         while True:
-            print(self.ball.direction_x)
             self._check_events()
             if self.playing:
                 self._update_paddle()
