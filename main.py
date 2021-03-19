@@ -1,4 +1,5 @@
 import pygame
+from pygame import mixer
 import sys
 
 from settings import Settings
@@ -17,6 +18,8 @@ class Pong:
 
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
+
+        # Uncomment this for fullscreen
         # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) # FULLSCREEN
 
         pygame.display.set_caption('Pong') # Title 
@@ -35,6 +38,7 @@ class Pong:
     def main(self):
         ''' Main game loop '''
         while True:
+            print(self.ball.direction_x)
             self._check_events()
             if self.playing:
                 self._update_paddle()
@@ -108,6 +112,8 @@ class Pong:
         # Check collission borders
         if self.ball.check_borders():
             self.ball.direction_y *= -1
+            border_sound = mixer.Sound('sound/wall.mp3')
+            border_sound.play()
         
         # Check collission paddles and ball
         self._collission_ball_paddle()
@@ -123,7 +129,7 @@ class Pong:
         self.paddle_right.reset_paddle()
         self.settings.reset_settings()
         self.ball.reset_ball()
-        self.ball.direction_x *= 1
+        self.ball.direction_y = self.ball.ball_direction()
         sleep(1) # pauses the game for 1 second
 
     def _collission_ball_paddle(self):
@@ -142,6 +148,10 @@ class Pong:
 
         # when ball collides with paddle
         if ball_left_paddle_collission or ball_right_paddle_collission:
+            # Play a sound
+            paddle_sound = mixer.Sound('sound/paddle.mp3')
+            paddle_sound.play()
+
             self.ball.direction_x *= -1 # Make the ball go opposite direction
             self.ball.direction_y = self.ball.ball_direction() # Randomize the ball y direction
             self.settings.speedup_ball() # Speedup the game
@@ -153,14 +163,28 @@ class Pong:
 
         # Right player scored
         if left_border:
-            self.settings.player_right_score += 1
-            self.scoreboard.prep_score_player_right()
-            self._reset()
+            self.left_border_collission()
         # Left player scored
         elif right_border:
-            self.settings.player_left_score += 1
-            self.scoreboard.prep_score_player_left()
-            self._reset()
+            self.right_border_collission()
+
+    def right_border_collission(self):
+        ''' Left player scored '''
+        goal_sound = mixer.Sound('sound/score.mp3')
+        goal_sound.play()
+        self.settings.player_left_score += 1
+        self.scoreboard.prep_score_player_left()
+        self.ball.direction_x = -abs(self.ball.direction_x)
+        self._reset()
+
+    def left_border_collission(self):
+        ''' Right player scored '''
+        goal_sound = mixer.Sound('sound/score.mp3')
+        goal_sound.play()
+        self.settings.player_right_score += 1
+        self.scoreboard.prep_score_player_right()
+        self.ball.direction_x = abs(self.ball.direction_x)
+        self._reset()
 
     def _update_screen(self):
         ''' Draw everything to the screen '''
