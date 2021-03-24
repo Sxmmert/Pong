@@ -4,6 +4,7 @@ import pygame, random
 class Ball:
     ''' class for the ball '''
     def __init__(self, game):
+        self.game = game
         self.screen = game.screen
         self.settings = game.settings
         self.color = self.settings.ball_color
@@ -19,10 +20,6 @@ class Ball:
         ''' Draws the ball to the screen'''
         pygame.draw.circle(self.screen, self.color,
             (self.ball_pos_x, self.ball_pos_y), self.radius)
-
-    def random_y(self):
-        ''' Return a random y direction speed '''
-        return random.random() / 7
     
     def update(self):
         ''' Moves the ball every frame '''
@@ -33,7 +30,19 @@ class Ball:
         self.ball_pos_y = self.y
 
     def ball_direction(self):
-        ''' Random ball direction in the x or y '''
+        paddle_mid = (self.settings.screen_height // 2) - (self.settings.paddle_height // 2)
+        if self.ball_pos_y <= paddle_mid:
+            return -1
+        elif self.ball_pos_y >= paddle_mid:
+            return 1
+
+        # if self.ball_pos_y >= self.settings.screen_height // 2:
+        #     return -1
+        # elif self.ball_pos_y <= self.settings.screen_height // 2:
+        #     return 1
+
+    def random_ball_direction(self):
+        ''' Random ball direction '''
         return random.choice([1, -1])
 
     def check_borders(self):
