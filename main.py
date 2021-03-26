@@ -34,6 +34,13 @@ class Pong:
         
         self.playing = False # Flag, when False show play button, else play the game
 
+        self.clock = pygame.time.Clock()
+
+        # sound effects
+        self.border_sound = mixer.Sound('audio/wall.mp3')
+        self.paddle_sound = mixer.Sound('audio/paddle.mp3')
+        self.goal_sound = mixer.Sound('audio/score.mp3')
+
     def main(self):
         ''' Main game loop '''
         while True:
@@ -110,8 +117,7 @@ class Pong:
         # Check collission borders
         if self.ball.check_borders():
             self.ball.direction_y *= -1
-            border_sound = mixer.Sound('sound/wall.mp3')
-            border_sound.play()
+            self.border_sound.play()
         
         # Check collission paddles and ball
         self._collission_ball_paddle()
@@ -147,8 +153,7 @@ class Pong:
         # when ball collides with paddle
         if ball_left_paddle_collission or ball_right_paddle_collission:
             # Play a sound
-            paddle_sound = mixer.Sound('sound/paddle.mp3')
-            paddle_sound.play()
+            self.paddle_sound.play()
 
             self.ball.direction_x *= -1 # Make the ball go opposite direction
             self.ball.direction_y = self.ball.ball_direction() # Randomize the ball y direction
@@ -161,24 +166,22 @@ class Pong:
 
         # Right player scored
         if left_border:
-            self.left_border_collission()
+            self._left_border_collission()
         # Left player scored
         elif right_border:
-            self.right_border_collission()
+            self._right_border_collission()
 
-    def right_border_collission(self):
+    def _right_border_collission(self):
         ''' Left player scored '''
-        goal_sound = mixer.Sound('sound/score.mp3')
-        goal_sound.play()
+        self.goal_sound.play()
         self.settings.player_left_score += 1
         self.scoreboard.prep_score_player_left()
         self.ball.direction_x = -abs(self.ball.direction_x)
         self._reset()
 
-    def left_border_collission(self):
+    def _left_border_collission(self):
         ''' Right player scored '''
-        goal_sound = mixer.Sound('sound/score.mp3')
-        goal_sound.play()
+        self.goal_sound.play()
         self.settings.player_right_score += 1
         self.scoreboard.prep_score_player_right()
         self.ball.direction_x = abs(self.ball.direction_x)
@@ -198,6 +201,8 @@ class Pong:
             self.button.draw_button()
         
         pygame.display.flip() # Refresh screen
+
+        self.clock.tick(self.settings.FPS) # FPS
 
     def _draw_middle_line(self):
         ''' Draws the middle line of the play screen '''
