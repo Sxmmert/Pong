@@ -1,3 +1,5 @@
+The only module needed is pygame
+
 Run play.py or main.py to run the game.
 
 To move the left paddle, use w and s.
